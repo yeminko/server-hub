@@ -8,7 +8,7 @@ DATABASE_URL = "sqlite:///./config.db"
 
 # Create engine with SQLite-specific parameters
 engine = create_engine(
-    DATABASE_URL, 
+    DATABASE_URL,
     connect_args={"check_same_thread": False}
 )
 
@@ -19,6 +19,8 @@ SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 Base = declarative_base()
 
 # Database dependency
+
+
 def get_db():
     """Database session dependency for FastAPI endpoints"""
     db = SessionLocal()
@@ -27,13 +29,14 @@ def get_db():
     finally:
         db.close()
 
+
 def init_db():
     """Initialize the database and create tables"""
-    from models import Config  # Import here to avoid circular imports
-    
+    from models.models import Config  # Import here to avoid circular imports
+
     # Create tables if they don't exist
     Base.metadata.create_all(bind=engine)
-    
+
     # Check if database file exists before initializing
     db_exists = os.path.exists("./config.db")
     return db_exists

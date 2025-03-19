@@ -15,6 +15,16 @@ Server Hub is a simple configuration-as-a-service platform that allows you to ea
 ## Run the Project
 
 - Execute `uv run fastapi dev` to start the development server.
+  
+### Alternative way to run
+
+- Run as follow:
+
+```shell
+    source .venv/bin/activate # Activate virtual environment
+    fastapi dev # Run the server
+    deactivate # Deactivate virtual environment
+```
 
 ## Additional Information
 

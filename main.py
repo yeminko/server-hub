@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from database import init_db
+from utils.database import init_db
 from routers import config, health
-from logger import setup_logger
+from utils.logger import setup_logger
 
 # Set up logging
 logger = setup_logger()
@@ -21,6 +21,8 @@ ServerHub provides configuration management through a RESTful API.
 """
 
 # Lifespan context manager for startup and shutdown events
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
