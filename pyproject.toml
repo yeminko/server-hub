@@ -1,0 +1,10 @@
+[project]
+name = "server-hub"
+version = "0.1.0"
+description = "ServerHub provides configuration management through a RESTful API."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.115.11",
+    "sqlalchemy>=2.0.39",
+]
