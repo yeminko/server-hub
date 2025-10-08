@@ -2,6 +2,10 @@
 
 ServerHub is a simple configuration-as-a-service platform that allows you to store and retrieve configurations through REST APIs. Store your application settings, feature flags, and environment variables in a centralized location with path-based organization.
 
+## Quick Start with Docker 🐳
+
+If you have Docker installed, check out our [DOCKER.md](DOCKER.md) guide for the easiest way to run ServerHub. You can get started with just one command!
+
 ## Environment Setup
 
 ### Prerequisites
