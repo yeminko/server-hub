@@ -35,7 +35,7 @@ def _parse_value(value: str) -> Any:
 def create_config(
     configs: Dict[str, Any],
     key: str = Header(...,
-                      description="Key to group configs, e.g. 'pos-app/local/frontend'"),
+                      description="Key to group configs, e.g. 'my-local-key'"),
     db: Session = Depends(get_db)
 ):
     saved_configs = []
@@ -68,7 +68,7 @@ def create_config(
             description="Retrieve all configuration values at a specific key as a JSON object")
 def read_configs_by_key(
     key: str = Header(...,
-                      description="Key to group configs, e.g. 'pos-app/local/frontend'"),
+                      description="Key to group configs, e.g. 'my-local-key'"),
     db: Session = Depends(get_db)
 ):
     configs = db.query(Config).filter(Config.path == key).all()
@@ -92,7 +92,7 @@ def read_configs_by_key(
 def read_config_by_key(
     config_key: str,
     key: str = Header(...,
-                      description="Key to group configs, e.g. 'pos-app/local/frontend'"),
+                      description="Key to group configs, e.g. 'my-local-key'"),
     db: Session = Depends(get_db)
 ):
     db_config = db.query(Config).filter(
@@ -112,7 +112,7 @@ def read_config_by_key(
 def update_configs(
     configs: Dict[str, Any],
     key: str = Header(...,
-                      description="Key to group configs, e.g. 'pos-app/local/frontend'"),
+                      description="Key to group configs, e.g. 'my-local-key'"),
     db: Session = Depends(get_db)
 ):
     updated_keys = []
@@ -148,7 +148,7 @@ def update_configs(
                description="Delete all configuration values at a specific key")
 def delete_configs_by_key(
     key: str = Header(...,
-                      description="Key to group configs, e.g. 'pos-app/local/frontend'"),
+                      description="Key to group configs, e.g. 'my-local-key'"),
     db: Session = Depends(get_db)
 ):
     configs = db.query(Config).filter(Config.path == key).all()
@@ -172,7 +172,7 @@ def delete_configs_by_key(
 def delete_config(
     config_key: str,
     key: str = Header(...,
-                      description="Key to group configs, e.g. 'pos-app/local/frontend'"),
+                      description="Key to group configs, e.g. 'my-local-key'"),
     db: Session = Depends(get_db)
 ):
     db_config = db.query(Config).filter(

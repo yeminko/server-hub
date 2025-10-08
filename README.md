@@ -1,79 +1,108 @@
-# Server Hub
+# ServerHub
 
-Server Hub is a simple configuration-as-a-service platform that allows you to easily store and retrieve your configurations through REST APIs.
+ServerHub is a simple configuration-as-a-service platform that allows you to store and retrieve configurations through REST APIs. Store your application settings, feature flags, and environment variables in a centralized location with path-based organization.
 
-## Project Setup
+## Environment Setup
 
-### Install `uv`
+### Prerequisites
 
-- Install `uv` using Homebrew: `brew install uv`
+- Python 3.x
+- `uv` package manager
 
-## Sync the Project
+### Installation
 
-- Run `uv sync` to download and install required dependencies.
+1. Install `uv` (if not already installed):
 
-## Run the Project
+   ```bash
+   brew install uv
+   ```
 
-- Execute `uv run fastapi dev` to start the development server.
-  
-### Alternative way to run
+2. Sync dependencies:
 
-- Run as follow:
+   ```bash
+   uv sync
+   ```
 
-```shell
-    source .venv/bin/activate # Activate virtual environment
-    fastapi dev # Run the server
-    deactivate # Deactivate virtual environment
+3. Start the development server:
+
+   ```bash
+   uv run fastapi dev
+   ```
+
+The server will start at `http://localhost:8000`
+
+## API Examples
+
+### Health Check
+
+Check if the API is running:
+
+```bash
+curl -X GET "http://localhost:8000/health"
 ```
 
-## API Documentation (Swagger)
+### Configuration Management
 
-Once the server is running, you can access the interactive API documentation through Swagger UI:
+All configuration endpoints require a `key` header to group configurations.
 
-### Swagger UI Paths
+#### Create/Update Multiple Configurations
 
-- **Interactive API Documentation**: `http://localhost:8000/docs`
-- **Alternative Documentation**: `http://localhost:8000/redoc`
-- **OpenAPI JSON Schema**: `http://localhost:8000/openapi.json`
+```bash
+curl -X POST "http://localhost:8000/config/" \
+  -H "key: my-app-config" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "database_url": "postgresql://localhost:5432/mydb",
+    "debug": true,
+    "max_connections": 100
+  }'
+```
 
-### How to Use Swagger
+#### Get All Configurations by Key
 
-1. **Start the server** using `uv run fastapi dev`
-2. **Open your browser** and navigate to `http://localhost:8000/docs`
-3. **Explore the API endpoints**:
-   - View all available endpoints organized by tags (Health, Configuration)
-   - See detailed request/response schemas
-   - Try out endpoints directly from the browser
-4. **Test API calls**:
-   - Click on any endpoint to expand it
-   - Click "Try it out" button
-   - Fill in required parameters
-   - Click "Execute" to make real API calls
-5. **View responses** including status codes, response bodies, and headers
+```bash
+curl -X GET "http://localhost:8000/config/" \
+  -H "key: my-app-config"
+```
 
-### API Features Available in Swagger
+#### Get Specific Configuration
 
-- **Health Endpoints**: Check server status and health
-- **Configuration Management**:
-  - Store configurations as JSON objects
-  - Retrieve configurations by path
-  - Update and delete configurations
-  - Path-based organization for hierarchical configuration management
+```bash
+curl -X GET "http://localhost:8000/config/item/?config_key=database_url" \
+  -H "key: my-app-config"
+```
 
-The Swagger interface provides a complete reference for all API endpoints, request/response formats, and allows you to test the API without writing any code.
+#### Update Multiple Configurations
 
-## Additional Information
+```bash
+curl -X PUT "http://localhost:8000/config/" \
+  -H "key: my-app-config" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "debug": false,
+    "max_connections": 200
+  }'
+```
 
-### Common `uv` Commands
+#### Delete Specific Configuration
 
-- Initialize a new project: `uv init`
-- Add a new dependency: `uv add package_name`
-- Remove a dependency: `uv remove package_name`
-- Learn more in the [Working on Projects](https://docs.astral.sh/uv/guides/projects/) documentation.
+```bash
+curl -X DELETE "http://localhost:8000/config/item/?config_key=debug" \
+  -H "key: my-app-config"
+```
 
-## Useful Resources
+#### Delete All Configurations by Key
 
-- [Virtual Environments](https://fastapi.tiangolo.com/virtual-environments/)
-- [Using uv with FastAPI](https://docs.astral.sh/uv/guides/integration/fastapi/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Swagger UI Documentation](https://swagger.io/tools/swagger-ui/)
+```bash
+curl -X DELETE "http://localhost:8000/config/key-group/" \
+  -H "key: my-app-config"
+```
+
+## Swagger Documentation
+
+Access the interactive API documentation at:
+
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+The Swagger interface allows you to explore all endpoints, view request/response schemas, and test API calls directly from your browser.

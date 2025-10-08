@@ -7,7 +7,7 @@ class Config(Base):
     Config model for storing configuration key-value pairs with path-based organization
 
     Attributes:
-        path: The hierarchical path where the config belongs (e.g., 'pos-app/local/frontend')
+        path: The hierarchical path where the config belongs (e.g., 'my-local-key')
         key: The configuration key
         value: The configuration value stored as a string
     """
