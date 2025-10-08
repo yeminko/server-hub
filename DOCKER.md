@@ -1,104 +1,34 @@
 # Docker Guide for ServerHub
 
-## Quick Start
+This guide provides simple instructions to containerize and run the ServerHub application using Docker.
 
-### Build the Image
+## Build the Image
+
 ```bash
-docker build -t serverhub .
+docker build -t server-hub:latest .
 ```
 
-### Run the Container
+This command builds a Docker image from the Dockerfile in the current directory and tags it as `server-hub:latest`.
+
+## Run the Container
+
 ```bash
-docker run -p 8000:8000 serverhub
+docker run -p 9222:8000 -d --rm --name server-hub-app -v server-hub-db:/app/db server-hub:latest
 ```
 
-### Access the Application
-- API: http://localhost:8000
-- Docs: http://localhost:8000/docs
-- Health: http://localhost:8000/health
+This command does the following:
 
-## Development
+- `-p 9222:8000` - Maps port 9222 on your host to port 8000 inside the container
+- `-d` - Runs the container in detached mode (in the background)
+- `--rm` - Automatically removes the container when it stops
+- `--name server-hub-app` - Assigns a name to the container for easy reference
+- `-v server-hub-db:/app/db` - Creates a persistent volume for the database files
+- `server-hub:latest` - Uses the image we built in the previous step
 
-### Run with Volume Mount (for development)
-```bash
-docker run -p 8000:8000 -v $(pwd):/app serverhub
-```
+## Access the Application
 
-### Run in Background
-```bash
-docker run -d -p 8000:8000 --name serverhub-app serverhub
-```
+Once running, you can access the ServerHub application at:
 
-### View Logs
-```bash
-docker logs serverhub-app
-```
-
-### Stop Container
-```bash
-docker stop serverhub-app
-docker rm serverhub-app
-```
-
-## Production
-
-### Build for Production
-```bash
-docker build -t serverhub:latest .
-docker tag serverhub:latest serverhub:v1.0.0
-```
-
-### Run with Restart Policy
-```bash
-docker run -d \
-  --name serverhub-prod \
-  --restart unless-stopped \
-  -p 8000:8000 \
-  serverhub:latest
-```
-
-## Docker Compose (Optional)
-
-Create `docker-compose.yml`:
-```yaml
-version: '3.8'
-
-services:
-  serverhub:
-    build: .
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-```
-
-Run with compose:
-```bash
-docker-compose up -d
-```
-
-## Troubleshooting
-
-### Check Container Status
-```bash
-docker ps -a
-```
-
-### Execute Shell in Container
-```bash
-docker exec -it serverhub-app bash
-```
-
-### Check Health Status
-```bash
-docker inspect serverhub-app | grep Health -A 10
-```
-
-### View Resource Usage
-```bash
-docker stats serverhub-app
-```
+- API: <http://localhost:9222>
+- Documentation: <http://localhost:9222/docs>
+- Health Check: <http://localhost:9222/health>
