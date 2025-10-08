@@ -4,7 +4,8 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 # Database configuration
-DATABASE_URL = "sqlite:///./config.db"
+DB_DIR = "./db"
+DATABASE_URL = f"sqlite:///{DB_DIR}/config.db"
 
 # Create engine with SQLite-specific parameters
 engine = create_engine(
@@ -34,9 +35,12 @@ def init_db():
     """Initialize the database and create tables"""
     from models.models import Config  # Import here to avoid circular imports
 
+    # Create db directory if it doesn't exist
+    os.makedirs(DB_DIR, exist_ok=True)
+
     # Create tables if they don't exist
     Base.metadata.create_all(bind=engine)
 
     # Check if database file exists before initializing
-    db_exists = os.path.exists("./config.db")
+    db_exists = os.path.exists(f"{DB_DIR}/config.db")
     return db_exists

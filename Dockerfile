@@ -29,6 +29,9 @@ RUN uv sync --frozen --no-dev
 # Copy application code
 COPY . .
 
+# Create db directory for database persistence
+RUN mkdir -p /app/db
+
 # Create a non-root user for security
 RUN useradd --create-home --shell /bin/bash --uid 1000 appuser && \
     chown -R appuser:appuser /app
