@@ -1,8 +1,22 @@
 # Docker Guide for ServerHub
 
-This guide provides simple instructions to containerize and run the ServerHub application using Docker.
+This guide provides instructions to run the ServerHub application using Docker. There are two ways to get started:
 
-## Build the Image
+## Method 1: Recommended Way (Pre-built Image)
+
+For the simplest setup, use the pre-built image directly from Docker Hub. This command will automatically pull the latest image and run it locally - no complex setup needed:
+
+```bash
+docker run -p 9222:8000 -d --rm --name server-hub-app -v server-hub-db:/app/db yeminko/server-hub:latest
+```
+
+This is the fastest way to get ServerHub running on your local machine.
+
+## Method 2: Manual Local Build Guide
+
+If you want to build the image from source code locally, follow these steps:
+
+### Build the Image
 
 ```bash
 docker build -t server-hub:latest .
@@ -10,7 +24,7 @@ docker build -t server-hub:latest .
 
 This command builds a Docker image from the Dockerfile in the current directory and tags it as `server-hub:latest`.
 
-## Run the Container
+### Run the Container
 
 ```bash
 docker run -p 9222:8000 -d --rm --name server-hub-app -v server-hub-db:/app/db server-hub:latest
