@@ -1,0 +1,10 @@
+services:
+  app: 
+    build: ./
+    ports:
+      - "9222:8000"
+    volumes:
+      - server-hub-db:/app/db 
+
+volumes:
+  server-hub-db:
