@@ -12,6 +12,8 @@ docker run -p 9222:8000 -d --rm --name server-hub-app -v server-hub-db:/app/db y
 
 This is the fastest way to get ServerHub running on your local machine.
 
+> More on this image can be found at: <https://hub.docker.com/r/yeminko/server-hub>
+
 ## Method 2: Manual Local Build Guide
 
 If you want to build the image from source code locally, follow these steps:
